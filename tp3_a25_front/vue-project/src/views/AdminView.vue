@@ -15,37 +15,29 @@
         <input v-model="isbn" required />
       </div>
 
-<div>
-  <label>Auteur</label>
-  <select v-model="selectedAuteur" required>
-    <option disabled value="">-- Choisir un auteur --</option>
-    <option
-      v-for="aut in auteurs"
-      :key="aut._id"
-      :value="aut._id"
-    >
-      {{ aut.nom }}
-    </option>
-  </select>
-</div>
+      <div>
+        <label>Auteur</label>
+        <select v-model="selectedAuteur" required>
+          <option disabled value="">-- Choisir un auteur --</option>
+          <option v-for="aut in auteurs" :key="aut._id" :value="aut._id">
+            {{ aut.nom }}
+          </option>
+        </select>
+      </div>
 
 
       <div>
-<div>
-  <label>Catégorie</label>
-  <select v-model="selectedCategorie" required>
-    <option disabled value="">-- Choisir une catégorie --</option>
-    <option
-      v-for="cat in categories"
-      :key="cat._id"
-      :value="cat._id"
-    >
-      {{ cat.nom }}
-    </option>
-  </select>
-</div>
+        <div>
+          <label>Catégorie</label>
+          <select v-model="selectedCategorie" required>
+            <option disabled value="">-- Choisir une catégorie --</option>
+            <option v-for="cat in categories" :key="cat._id" :value="cat._id">
+              {{ cat.nom }}
+            </option>
+          </select>
+        </div>
 
-</div>
+      </div>
 
       <div>
         <label>Prix</label>
@@ -62,31 +54,31 @@
         <input v-model="image" />
       </div>
 
-     <button type="submit">
-  {{ editingBookId ? "Enregistrer les modifications" : "Ajouter le livre" }}
-</button>
+      <button type="submit">
+        {{ editingBookId ? "Enregistrer les modifications" : "Ajouter le livre" }}
+      </button>
 
     </form>
-<hr />
+    <hr />
 
-<h2>Liste des livres</h2>
+    <h2>Liste des livres</h2>
 
-<p v-if="loading">Chargement des livres...</p>
+    <p v-if="loading">Chargement des livres...</p>
 
-<ul v-if="!loading">
- <li v-for="book in livres" :key="book._id">
-  {{ book.titre }} — {{ book.prix }} $ — Stock : {{ book.stock }}
+    <ul v-if="!loading">
+      <li v-for="book in livres" :key="book._id">
+        {{ book.titre }} — {{ book.prix }} $ — Stock : {{ book.stock }}
 
-  <button @click="editBook(book)" style="margin-left: 10px;">
-    Modifier
-  </button>
+        <button @click="editBook(book)" style="margin-left: 10px;">
+          Modifier
+        </button>
 
-  <button @click="deleteBook(book._id)" style="margin-left: 10px; color: red;">
-    Supprimer
-  </button>
-</li>
+        <button @click="deleteBook(book._id)" style="margin-left: 10px; color: red;">
+          Supprimer
+        </button>
+      </li>
 
-</ul>
+    </ul>
 
 
     <p v-if="success" style="color: green">{{ success }}</p>
@@ -135,24 +127,20 @@ async function addBook() {
 
   try {
     if (editingBookId.value) {
-      // ✅ MODE MODIFICATION
       await apiFetch(`/api/livres/${editingBookId.value}`, {
         method: "PUT",
         body: JSON.stringify(payload),
       });
 
-      success.value = "Livre modifié ✅";
+      success.value = "Livre modifié";
     } else {
-      // ✅ MODE AJOUT
       await apiFetch("/api/livres", {
         method: "POST",
         body: JSON.stringify(payload),
       });
 
-      success.value = "Livre ajouté ✅";
+      success.value = "Livre ajouté";
     }
-
-    // ✅ RESET TOTAL DU FORMULAIRE
     titre.value = "";
     isbn.value = "";
     prix.value = 0;
@@ -162,7 +150,6 @@ async function addBook() {
     selectedCategorie.value = "";
     editingBookId.value = null;
 
-    // ✅ RECHARGE LA LISTE
     fetchAdminBooks();
   } catch (err) {
     error.value = err.message || "Erreur lors de l'opération";
@@ -179,7 +166,7 @@ async function fetchCategories() {
 }
 onMounted(() => {
   fetchCategories();
-  fetchAuteurs(); // ✅ AJOUT
+  fetchAuteurs();
   fetchAdminBooks();
 
 });
@@ -214,14 +201,13 @@ async function deleteBook(bookId) {
       method: "DELETE",
     });
 
-    // Rafraîchir la liste après suppression
     fetchAdminBooks();
   } catch (e) {
     alert("Erreur lors de la suppression");
   }
 }
 function editBook(book) {
-    console.log("BOOK REÇU:", book);
+  console.log("BOOK REÇU:", book);
   editingBookId.value = book._id;
 
   titre.value = book.titre;

@@ -20,23 +20,23 @@ const router = createRouter({
       component: () => import("../views/SignupView.vue"),
     },
     {
-  path: "/panier",
-  name: "cart",
-  component: () => import("../views/CartView.vue"),
-  meta: { requiresAuth: true },
-},
-{
-  path: "/profil",
-  name: "profile",
-  component: () => import("../views/ProfileView.vue"),
-  meta: { requiresAuth: true },
-},
-{
-  path: "/admin",
-  name: "admin",
-  component: () => import("../views/AdminView.vue"),
-  meta: { requiresAuth: true },
-},
+      path: "/panier",
+      name: "cart",
+      component: () => import("../views/CartView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/profil",
+      name: "profile",
+      component: () => import("../views/ProfileView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/admin",
+      name: "admin",
+      component: () => import("../views/AdminView.vue"),
+      meta: { requiresAuth: true },
+    },
 
 
 
@@ -48,7 +48,7 @@ import { useAuthStore } from "@/stores/auth";
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore();
 
- 
+
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
     next("/login");
   } else {

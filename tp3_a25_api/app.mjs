@@ -18,7 +18,7 @@ import panierRoutes from './routes/panier.mjs';
 dotenvFlow.config();
 const app = express();
 
-const port = process.env.PORT ?? 3000;
+
 
 app.use(helmet()); // protection XSS
 app.use(cors()); // Cross-Origin Resource Sharing
@@ -28,7 +28,7 @@ if (process.env.NODE_ENV !== "production") {
 	app.use(morgan("dev")); // journalisation des requêtes
 }
 
-app.use(seedRoutes);
+app.use("/db", seedRoutes);
 app.use("/auth", authRoutes);
 app.use('/api/livres', livreRoutes);
 app.use('/api/auteurs', auteurRoutes);
@@ -95,9 +95,7 @@ app.use((_req, res, _next) => {
 mongooseConnect(process.env.MONGODB_URI ?? "mongodb://localhost:27017/etcaetera")
 	.then(() => {
 		console.log("Connexion à MongoDB réussie");
-		app.listen(port, () => {
-			console.log(`Serveur démarré sur le port ${port}`);
-		});
+	
 	})
 	.catch((error) => {
 		console.error("Erreur de connexion à MongoDB:", error);

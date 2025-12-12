@@ -6,7 +6,6 @@ const route = useRoute();
 </script>
 
 <template>
-  <!-- On cache le menu sur /login et /signup -->
   <AppNavigation v-if="route.path !== '/login' && route.path !== '/signup'" />
   <RouterView />
 </template>
