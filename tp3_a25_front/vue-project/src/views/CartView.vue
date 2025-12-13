@@ -36,7 +36,7 @@
     </div>
     <div v-if="cartStore.cart && cartStore.cart.items.length > 0" class="total-box">
       <p>
-        <strong>Total :</strong> {{ cartStore.cart.total }} $
+        <strong>Total :</strong> {{ formattedTotal }} $
       </p>
 
       <button class="clear" @click="clearCart">
@@ -47,10 +47,17 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { useCartStore } from "../stores/cart";
 
 const cartStore = useCartStore();
+
+const formattedTotal = computed(() => {
+  return cartStore.cart
+    ? Number(cartStore.cart.total).toFixed(2)
+    : "0.00";
+});
+
 
 onMounted(() => {
   cartStore.fetchCart();

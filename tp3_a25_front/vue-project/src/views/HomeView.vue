@@ -49,7 +49,6 @@
           </div>
         </div>
 
-        <!-- ✅ PAGINATION -->
         <div v-if="booksStore.pagination" class="pagination">
           <button :disabled="booksStore.pagination.page <= 1" @click="changePage(booksStore.pagination.page - 1)">
             Page précédente
